@@ -4,9 +4,9 @@ var webpack = require('webpack');
 module.exports = {
   context: __dirname,
   devtool: debug ? "inline-sourcemap" : null,
-  entry: "./src/app.js",
+  entry: "./js/scripts.js",
   output: {
-    path: __dirname + "/dist",
+    path: __dirname + "/js",
     filename: "scripts.min.js"
   },
   plugins: debug ? [] : [
@@ -14,4 +14,23 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
   ],
+  module: {
+    rules: [
+      { test: /\.css$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" }
+        ]
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: "babel-loader"
+      }, {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: "babel-loader"
+      }
+    ]
+  }
 };
